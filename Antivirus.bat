@@ -1,7 +1,7 @@
 @echo off 
 title Antivirus 
 echo Antivirus 
-echo created by your name 
+echo created by Venom37222
 :start if exist virus.bat goto infected 
 cd C:\Windows\system32 
 if not exist virus.bat goto clean :infected 
