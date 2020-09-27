@@ -1,28 +1,42 @@
-import urllib.parse
-import urllib.request
-import time
+#usr/bin/!env/python_Venom37222
 
-class VirusTotal:
-    __apiKey = "PLEASE ADD YOUR API KEY HERE"
-    __url = 'https://www.virustotal.com/vtapi/v2/file/report'
-    __result = ''
-    __md5 = ''
-    def __init__(self,md5):
-        print('initializing....')
-        params = {'apikey': self.__apiKey,
-                  'resource': md5}
-        print('accessing virus total database.....')
-        parameters = urllib.parse.urlencode(params)
-        req = urllib.request.Request(self.__url, parameters.encode('utf-8'))
-        response = urllib.request.urlopen(req)
-        the_page = response.read()
-        self.__result = the_page.decode('utf-8')
-        self.__md5 = md5
-        self.create_json()
-        print('result stored as '+md5+".json")
-        print("waiting for another process...")
-        time.sleep(20) # Must sleep for 20 seconds
-    def create_json(self):
-        file = open(self.__md5+'.json',"w")
-        file.write(self.__result)
-        file.close()
+import base64
+import os
+import sys
+
+os_name = sys.platform
+
+def encode_base64(file, qPath):
+    global os_name
+    
+    org_file_path = bytes(file, "utf-8")
+    if "win" in os_name:
+        org_file_name = file.rfind("\\")
+    else:
+        org_file_name = file.rfind("/")
+    org_file_name = file[org_file_name+1:]
+    f = open(file, "rb")
+    org_content = f.read()
+    f.close()
+    os.remove(file)
+    new_content = base64.b64encode(org_content)
+    f = open(qPath + org_file_name + ".eb64", "wb")
+    f.write(org_file_path + b"\n")
+    f.write(new_content)
+    f.close()
+
+def decode_base64(file):
+    f = open(file, "rb")
+    org_content = f.read()
+    f.close()
+    org_content = org_content.splitlines()
+    org_file_path = org_content[0]
+    org_content.remove(org_file_path)
+    new_content = []
+    for i in org_content:
+        new_content.append(base64.b64decode(i))   
+    f = open(org_file_path, "wb")
+    for i in new_content:
+        f.write(i + b"\n")
+    f.close()
+    os.remove(file)
