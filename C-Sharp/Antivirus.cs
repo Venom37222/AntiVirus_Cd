@@ -21,7 +21,7 @@ namespace AntivirusForm
     public class AntivirusEx
     {
         int viruses;
-        string[] virusList = new string[] { "virus", "trojan", "hack", "hacker" }; //Lista de palabras que queremos buscar
+        string[] virusList = new string[] { "virus", "trojan", "hack", "hacker" }; 
         MetodosAuxiliares aux = new MetodosAuxiliares();
         dumps coredump = new dumps();
         VirusTotalSend send;
@@ -42,7 +42,7 @@ namespace AntivirusForm
             mon = new Monitor();
             eventos = new Eventos(mon);
             eventos.Monitorizar();
-        }
+        };
 
 
 
@@ -56,17 +56,12 @@ namespace AntivirusForm
                     dataGridView1.DataSource = ((VirusTotalAux)dataGridVTResult.CurrentRow.DataBoundItem).resultados;
                     dataGridView1.Refresh();
                     dataGridView1.Update();
-                }
-            }
+                };
+            };
+        };
 
-        }
 
-
-        /// <summary>
-        /// Select the path to scan
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void manualbtn_Click(object sender, EventArgs e)
         {
 
@@ -80,15 +75,11 @@ namespace AntivirusForm
                 compararHash();
                 deletebtn.Enabled = true;
                 cuarentenaBtn.Enabled = true;
-            }
+            };
 
-        }
+        };
 
-        /// <summary>
-        /// Scan the whole system, disabled, must enable to use
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void fullscanbtn_Click(object sender, EventArgs e)
         {
             search = Directory.GetFiles(@"C:\\", "*.*", System.IO.SearchOption.AllDirectories).ToList();
@@ -97,7 +88,7 @@ namespace AntivirusForm
             compararHash();
             deletebtn.Enabled = true;
             cuarentenaBtn.Enabled = true;
-        }
+        };
 
 
         private void analizarVTbtn_Click(object sender, EventArgs e)
@@ -117,21 +108,19 @@ namespace AntivirusForm
                 volverBtn.Show();
                 analizarVTbtn.Hide();
 
-            }
+            };
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("Comprueba tu conexión.");
 
-            }
+            };
 
             dataGridVTResult.Refresh();
             dataGridView1.Refresh();
 
-        }
+        };
 
-        /// <summary>
-        /// Get the hash from the files and compares it with the ones in BD
-        /// </summary>
+        
         public void compararHash()
         {
             Conexion c = new Conexion();
@@ -150,18 +139,16 @@ namespace AntivirusForm
                             this.infectedLbl.Text = "Infected Files:  " + viruses;
                             this.infectedLbl.ForeColor = Color.Red;
                             listVirus.Items.Add(item);
-                        }
-                    }
+                        };
+                    };
 
-                }
-            }
-        }
+                };
+            };
+        };
 
 
 
-        /// <summary>
-        /// Open the file and search words in it.
-        /// </summary>
+        
         public void compararPalabras()
         {
             foreach (string item in search)
@@ -170,7 +157,7 @@ namespace AntivirusForm
                 if (item.Contains(".txt") || item.Contains(".pdf") || item.Contains(".doc"))
                 {
                     continue;
-                }
+                };
                 else
                 {
                     try
@@ -190,23 +177,19 @@ namespace AntivirusForm
                                     this.infectedLbl.ForeColor = Color.Red;
                                     //infectedLbl="Infected Files" + viruses;
                                     listVirus.Items.Add(item);
-                                }
-                            }
-                        }
-                    }
+                                };
+                            };
+                        };
+                    };
                     catch (Exception ex)
                     {
                         System.Windows.Forms.MessageBox.Show("Ocurrio un error.");
-                    }
-                }
-            }
-        }
+                    };
+                };
+            };
+        };
 
-        /// <summary>
-        /// Creates a dump of the process
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void crearDump_Click(object sender, EventArgs e)
         {
             Console.WriteLine(dataGridVTResult.SelectedCells[0].Value.ToString());
@@ -216,7 +199,7 @@ namespace AntivirusForm
             words = proceso1.Split('.');
             Console.WriteLine(words.First());
             coredump.CurrentDomain_UnhandledException(words.First());
-        }
+        };
 
 
         private void volverBtn_Click(object sender, EventArgs e)
@@ -226,7 +209,7 @@ namespace AntivirusForm
             dataGridVTResult.Columns[0].Width = 230;
             dataGridView1.Hide();
             volverBtn.Hide();
-        }
+        };
 
         private void deletebtn_Click(object sender, EventArgs e)
         {
@@ -248,16 +231,16 @@ namespace AntivirusForm
                         System.IO.File.Delete(item.ToString());
                         listVirus.Items.Remove(item);
                         listVirus.Refresh();
-                    }
+                    };
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         return;
-                    }
-                }
+                    };
+                };
                 Console.WriteLine(item.ToString());
-            }
-        }
+            };
+        };
 
 
         private void cuarentenaBtn_Click(object sender, EventArgs e)
@@ -274,17 +257,17 @@ namespace AntivirusForm
                 this.lblFolder.Text = "Archivos movidos a cuarentena";
                 listVirus.Items.Remove(item);
                 listVirus.Refresh();
-            }
+            };
 
-        }
+        };
 
         private void monitorBtn_Click(object sender, EventArgs e)
         {
             mon.Show();
-        }
+        };
 
 
 
 
-    }
-}
+    };
+};
